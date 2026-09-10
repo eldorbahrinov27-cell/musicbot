@@ -1,4 +1,3 @@
-
 import os
 import asyncio
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -23,8 +22,8 @@ def run_server():
 # Veb-serverni fonda ishga tushiramiz
 threading.Thread(target=run_server, daemon=True).start()
 
-# 2. Bot sozlamalari (Tokeningiz o'z joyida)
-TOKEN = "8422789528:AAF2TIqP_TzL5AcLGwUwj_hltNIyqc8catw"
+# 2. Bot sozlamalari
+TOKEN = "8422789528:AAF2TiqP_TzL5AcLGwUwj_hltNIy"
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
@@ -43,13 +42,11 @@ async def send_music(message: types.Message):
         
     wait_msg = await message.answer("🔍 Qidirilmoqda va yuklab olinmoqda, biroz kuting...")
     
-        ydl_opts = {
+    ydl_opts = {
         'format': 'bestaudio',
         'outtmpl': 'downloaded_song.%(ext)s',
         'quiet': True,
         'extractor_args': {'youtube': {'player_client': ['android']}},
-    }
-
     }
     
     try:
@@ -57,19 +54,18 @@ async def send_music(message: types.Message):
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(f"ytsearch1:{query}", download=True)
                 filename = ydl.prepare_filename(info)
-                return filename 
+                return filename
+
         loop = asyncio.get_running_loop()
         file_path = await loop.run_in_executor(None, download)
         
         if os.path.exists(file_path):
             audio = FSInputFile(file_path)
             await message.answer_audio(audio)
-            # Kutish xabarini o'chirib tashlaymiz
             try:
                 await bot.delete_message(chat_id=message.chat.id, message_id=wait_msg.message_id)
             except:
                 pass
-            # Faylni serverdan tozalab tashlaymiz
             os.remove(file_path)
         else:
             await message.answer("Kechirasiz, bu qo'shiqni topib bo'lmadi.")
@@ -82,4 +78,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
