@@ -23,7 +23,7 @@ def run_server():
 threading.Thread(target=run_server, daemon=True).start()
 
 # 2. Bot sozlamalari
-TOKEN = "8422789528:AAF2TiqP_TzL5AcLGwUwj_hltNIy"
+TOKEN = "8422789528:AAF2TIqP_TzL5AcLGwUwj_hltNIyqc8catw"
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
