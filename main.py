@@ -43,10 +43,13 @@ async def send_music(message: types.Message):
         
     wait_msg = await message.answer("🔍 Qidirilmoqda va yuklab olinmoqda, biroz kuting...")
     
-    ydl_opts = {
+        ydl_opts = {
         'format': 'bestaudio',
         'outtmpl': 'downloaded_song.%(ext)s',
         'quiet': True,
+        'extractor_args': {'youtube': {'player_client': ['android']}},
+    }
+
     }
     
     try:
@@ -54,8 +57,7 @@ async def send_music(message: types.Message):
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(f"ytsearch1:{query}", download=True)
                 filename = ydl.prepare_filename(info)
-                return filename
-
+                return filename 
         loop = asyncio.get_running_loop()
         file_path = await loop.run_in_executor(None, download)
         
