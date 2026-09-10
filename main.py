@@ -7,7 +7,6 @@ from aiogram.filters import CommandStart
 from aiogram.types import FSInputFile
 import yt_dlp
 
-# Render uchun veb-server
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -21,15 +20,14 @@ def run_server():
 
 threading.Thread(target=run_server, daemon=True).start()
 
-# Tokenni Render xotirasidan o'qiymiz
-TOKEN = os.environ.get("BOT_TOKEN")
+TOKEN = "8422789528:AAF2TiqP_TzL5AcLGwUwj_hltNIy"
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def cmd_start(message: types.Message):
-    await message.answer("Salom! Menga istalgan qo'shiq nomini yuboring, men uni YouTube'dan topib yuklab beraman! 🎵")
+    await message.answer("Salom! Menga istalgan qo'shiq nomini yuboring, men uni YouTube'dan topib yuklab beraman!")
 
 @dp.message()
 async def send_music(message: types.Message):
@@ -37,7 +35,7 @@ async def send_music(message: types.Message):
     if not query:
         return
         
-    wait_msg = await message.answer("🔍 Qidirilmoqda va yuklab olinmoqda, biroz kuting...")
+    wait_msg = await message.answer("Qidirilmoqda va yuklab olinmoqda, biroz kuting...")
     
     ydl_opts = {
         'format': 'bestaudio',
@@ -74,6 +72,7 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
 
