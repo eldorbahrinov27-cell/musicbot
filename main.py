@@ -7,7 +7,7 @@ from aiogram.filters import CommandStart
 from aiogram.types import FSInputFile
 import yt_dlp
 
-# 1. Render uchun veb-server (Bot o'chib qolmasligi uchun)
+# Render uchun veb-server
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -19,21 +19,18 @@ def run_server():
     server = HTTPServer(('0.0.0.0', port), SimpleHandler)
     server.serve_forever()
 
-# Veb-serverni fonda ishga tushiramiz
 threading.Thread(target=run_server, daemon=True).start()
 
-# 2. Bot sozlamalari
-TOKEN = "8422789528:AAF2TiqP_TzL5AcLGwUwj_hltNIy"
+# Tokenni Render xotirasidan o'qiymiz
+TOKEN = os.environ.get("BOT_TOKEN")
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
-# Start komandasi
 @dp.message(CommandStart())
 async def cmd_start(message: types.Message):
     await message.answer("Salom! Menga istalgan qo'shiq nomini yuboring, men uni YouTube'dan topib yuklab beraman! 🎵")
 
-# 3. Musiqa qidirish va yuklash funksiyasi
 @dp.message()
 async def send_music(message: types.Message):
     query = message.text
@@ -72,11 +69,11 @@ async def send_music(message: types.Message):
     except Exception as e:
         await message.answer(f"Xatolik yuz berdi: {e}")
 
-# Botni ishga tushirish
 async def main():
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
